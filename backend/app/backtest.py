@@ -1,8 +1,8 @@
 import requests
 import pandas as pd
-
+from config import binance_free_api
 def fetch_data(symbol, interval, limit=1000):
-    url = 'https://api.binance.com/api/v3/klines'
+    url = binance_free_api
     params = {
         'symbol': symbol,
         'interval': interval,

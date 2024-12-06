@@ -1,8 +1,9 @@
 import { TextField, Button } from "@mui/material";
 import { BacktestFormProps } from "./types";
 import { TIMEFRAMES } from "./constants";
+import { FC } from "react";
 
-export const BacktestForm: React.FC<BacktestFormProps> = ({ symbol, setSymbol, period, setPeriod, interval, setInterval, fetchBacktestData, loading,}) => (
+export const BacktestForm: FC<BacktestFormProps> = ({ symbol, setSymbol, period, setPeriod, interval, setInterval, fetchBacktestData, loading,}) => (
   <>
     <div className="mb-4">
       <TextField

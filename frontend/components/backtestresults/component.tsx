@@ -1,9 +1,10 @@
 import { IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import { BacktestResultsProps } from "./types";
+import { BACKTEST_RESULTS_COLUMNS } from "./constants";
 
-export const BacktestResults: React.FC<BacktestResultsProps> = ({ result, setIsResultsVisible }) => {
+export const BacktestResults: FC<BacktestResultsProps> = ({ result, setIsResultsVisible }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
@@ -34,30 +35,14 @@ export const BacktestResults: React.FC<BacktestResultsProps> = ({ result, setIsR
           <h2 className="text-xl font-bold mb-4">Backtest Results</h2>
           <div className="bg-gray-100 p-6 rounded-lg">
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="flex flex-col">
-                <strong>Symbol:</strong> {result.symbol}
-              </div>
-              <div className="flex flex-col">
-                <strong>Data Length:</strong> {result.data_length}
-              </div>
-              <div className="flex flex-col">
-                <strong>Current Close:</strong> ${result.current_close.toFixed(2)}
-              </div>
-              <div className="flex flex-col">
-                <strong>Current MA:</strong> {result.current_ma.toFixed(2)}
-              </div>
-              <div className="flex flex-col">
-                <strong>Total Crossovers:</strong> {result.total_crossovers}
-              </div>
-              <div className="flex flex-col">
-                <strong>Total Crossunders:</strong> {result.total_crossunders}
-              </div>
-              <div className="flex flex-col">
-                <strong>Timeframe:</strong> {result.interval}
-              </div>
-              <div className="flex flex-col">
-                <strong>MA Period:</strong> {result.period}
-              </div>
+              {BACKTEST_RESULTS_COLUMNS.map((column, index) => (
+                <div key={index} className="flex flex-col">
+                  <strong>{column.label}:</strong> 
+                  {column.key === "current_close" || column.key === "current_ma" 
+                    ? `$${result[column.key].toFixed(2)}`
+                    : result[column.key]}
+                </div>
+              ))}
             </div>
           </div>
         </div>

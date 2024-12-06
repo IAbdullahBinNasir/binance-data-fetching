@@ -1,10 +1,12 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface BacktestFormProps {
     symbol: string;
-    setSymbol: React.Dispatch<React.SetStateAction<string>>;
+    setSymbol: Dispatch<SetStateAction<string>>;
     period: number;
-    setPeriod: React.Dispatch<React.SetStateAction<number>>;
+    setPeriod: Dispatch<SetStateAction<number>>;
     interval: string;
-    setInterval: React.Dispatch<React.SetStateAction<string>>;
+    setInterval: Dispatch<SetStateAction<string>>;
     fetchBacktestData: () => void;
     loading: boolean;
   }

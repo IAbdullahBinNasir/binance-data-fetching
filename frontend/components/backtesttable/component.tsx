@@ -1,7 +1,9 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import { BacktestsTableProps } from "./types";
+import { FC } from "react";
+import { BACKTEST_TABLE_COLUMNS } from "./constants";
 
-export const BacktestsTable: React.FC<BacktestsTableProps> = ({ backtests, deleteBacktest }) => {
+export const BacktestsTable: FC<BacktestsTableProps> = ({ backtests, deleteBacktest }) => {
   return (
     <div className="mt-6">
       <h2 className="text-xl font-bold mb-4">Previous Backtests</h2>
@@ -10,38 +12,32 @@ export const BacktestsTable: React.FC<BacktestsTableProps> = ({ backtests, delet
           <Table>
             <TableHead>
               <TableRow>
-              <TableCell><strong>Symbol</strong></TableCell>
-              <TableCell><strong>Timeframe</strong></TableCell>
-                <TableCell><strong>Period</strong></TableCell>
-                <TableCell><strong>Data Length</strong></TableCell>
-                <TableCell><strong>Last Close</strong></TableCell>
-                <TableCell><strong>Current MA</strong></TableCell>
-                <TableCell><strong>Total Crossovers</strong></TableCell>
-                <TableCell><strong>Total Crossunders</strong></TableCell>
-                <TableCell><strong>Action</strong></TableCell>
+                {BACKTEST_TABLE_COLUMNS.map((column, index) => (
+                  <TableCell key={index}><strong>{column.label}</strong></TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {backtests.map((backtest, index) => (
                 <TableRow key={index}>
-                  <TableCell>{backtest.symbol}</TableCell>
-                  <TableCell>{backtest.interval}</TableCell>
-                  <TableCell>{backtest.period}</TableCell>
-                  <TableCell>{backtest.data_length}</TableCell>
-                  <TableCell>${backtest.current_close.toFixed(2)}</TableCell>
-                  <TableCell>{backtest.current_ma.toFixed(2)}</TableCell>
-                  <TableCell>{backtest.total_crossovers}</TableCell>
-                  <TableCell>{backtest.total_crossunders}</TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => deleteBacktest(index)}
-                      variant="contained"
-                      color="secondary"
-                      size="small"
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
+                  {BACKTEST_TABLE_COLUMNS.map((column) => (
+                    <TableCell key={column.key}>
+                      {column.key === "action" ? (
+                        <Button
+                          onClick={() => deleteBacktest(index)}
+                          variant="contained"
+                          color="secondary"
+                          size="small"
+                        >
+                          Delete
+                        </Button>
+                      ) : (
+                        column.key === "current_close" || column.key === "current_ma" 
+                          ? `$${backtest[column.key].toFixed(2)}`
+                          : backtest[column.key]
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))}
             </TableBody>
